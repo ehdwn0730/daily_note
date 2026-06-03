@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-cd /d C:\workspace\research-note-automation
+cd /d C:\Users\ehdwn\Desktop\project\daily_note
 
 echo ==========================================
 echo Daily Research Note HTML
@@ -14,7 +14,7 @@ call .daily_note\Scripts\activate
 if errorlevel 1 (
     echo.
     echo [ERROR] Failed to activate virtual environment.
-    echo Check: C:\workspace\research-note-automation\.daily_note
+    echo Check: C:\Users\ehdwn\Desktop\project\daily_note\.daily_note
     pause
     exit /b 1
 )
@@ -52,7 +52,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-set LATEST_PATH_FILE=C:\workspace\research-note-automation\html\latest_daily_html_path.txt
+set LATEST_PATH_FILE=C:\Users\ehdwn\Desktop\project\daily_note\html\latest_daily_html_path.txt
 
 if exist "%LATEST_PATH_FILE%" (
     set /p HTML_PATH=<"%LATEST_PATH_FILE%"
