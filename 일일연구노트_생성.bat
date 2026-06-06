@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-cd /d "%~dp0"
+cd /d C:\Users\ehdwn\Desktop\project\daily_note
 
 echo ==========================================
 echo Daily Research Note DOCX
