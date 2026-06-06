@@ -1,20 +1,31 @@
 @echo off
 setlocal
 
-cd /d C:\workspace\research-note-automation
+cd /d "%~dp0"
 
 echo ==========================================
-echo Daily Research Note HTML
+echo Daily Research Note DOCX
 echo ==========================================
 echo.
 
 echo [1/4] Activate virtual environment...
-call .daily_note\Scripts\activate
+if exist ".daily_note\Scripts\activate.bat" (
+    call .daily_note\Scripts\activate.bat
+) else if exist ".daliy_note\Scripts\activate.bat" (
+    call .daliy_note\Scripts\activate.bat
+) else if exist ".venv\Scripts\activate.bat" (
+    call .venv\Scripts\activate.bat
+) else (
+    echo.
+    echo [ERROR] Virtual environment not found.
+    echo Check: %CD%\.daily_note or %CD%\.daliy_note or %CD%\.venv
+    pause
+    exit /b 1
+)
 
 if errorlevel 1 (
     echo.
     echo [ERROR] Failed to activate virtual environment.
-    echo Check: C:\workspace\research-note-automation\.daily_note
     pause
     exit /b 1
 )
@@ -42,29 +53,23 @@ if errorlevel 1 (
 )
 
 echo.
-echo [4/4] Render HTML...
-python scripts\render_daily_html.py
+echo [4/4] Update weekly DOCX from template...
+python scripts\render_weekly_daily_docx.py
 
 if errorlevel 1 (
     echo.
-    echo [ERROR] Failed to render HTML.
+    echo [ERROR] Failed to update weekly DOCX.
     pause
     exit /b 1
 )
 
-set LATEST_PATH_FILE=C:\workspace\research-note-automation\html\latest_daily_html_path.txt
+set LATEST_PATH_FILE=%CD%\documents\daily_note\latest_daily_note_docx_path.txt
 
 if exist "%LATEST_PATH_FILE%" (
-    set /p HTML_PATH=<"%LATEST_PATH_FILE%"
+    set /p DOCX_PATH=<"%LATEST_PATH_FILE%"
     echo.
-    echo Opening:
-    echo %HTML_PATH%
-    start "" "%HTML_PATH%"
-) else (
-    echo.
-    echo [ERROR] latest_daily_html_path.txt not found.
-    pause
-    exit /b 1
+    echo Updated DOCX:
+    echo %DOCX_PATH%
 )
 
 echo.
